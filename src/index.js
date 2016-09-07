@@ -32,8 +32,3 @@ Backbone.history.start();
 new AppView({
     collection: todos
 });
-
-// ReactDOM.render(
-  // <App />,
-  // document.getElementById('root')
-// );

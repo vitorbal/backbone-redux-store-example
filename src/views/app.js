@@ -3,6 +3,10 @@ import _ from 'underscore';
 import $ from 'jquery';
 import TodoView from './todo';
 
+import React from 'react';
+import ReactDOM from 'react-dom';
+import Stats from '../components/stats';
+
 const ENTER_KEY = 13;
 
 // The Application
@@ -14,9 +18,6 @@ const AppView = Backbone.View.extend({
     // Instead of generating a new element, bind to the existing skeleton of
     // the App already present in the HTML.
     el: '.todoapp',
-
-    // Our template for the line of statistics at the bottom of the app.
-    statsTemplate: _.template($('#stats-template').html()),
 
     // Delegated events for creating new items, and clearing completed ones.
     events: {
@@ -57,11 +58,10 @@ const AppView = Backbone.View.extend({
             this.$main.show();
             this.$footer.show();
 
-            this.$footer.html(this.statsTemplate({
-                completed: completed,
-                remaining: remaining,
-                filter: window.TodoFilter
-            }));
+            ReactDOM.render(
+                <Stats completed={completed} remaining={remaining} filter={window.TodoFilter}/>,
+                this.$footer[0]
+            );
 
         } else {
             this.$main.hide();

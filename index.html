@@ -29,22 +29,5 @@
       </div>
       <input class="edit" value="<%- title %>">
     </script>
-    <script type="text/template" id="stats-template">
-      <span class="todo-count"><strong><%= remaining %></strong> <%= remaining === 1 ? 'item' : 'items' %> left</span>
-      <ul class="filters">
-        <li>
-          <a<% if (filter === 'all') { %> class="selected"<% } %> href="#/">All</a>
-        </li>
-        <li>
-          <a<% if (filter === 'active') { %> class="selected"<% } %> href="#/active">Active</a>
-        </li>
-        <li>
-          <a<% if (filter === 'completed') { %> class="selected"<% } %> href="#/completed">Completed</a>
-        </li>
-      </ul>
-      <% if (completed) { %>
-      <button class="clear-completed">Clear completed</button>
-      <% } %>
-    </script>
   </body>
 </html>
