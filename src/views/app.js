@@ -59,13 +59,10 @@ const AppView = Backbone.View.extend({
 
             this.$footer.html(this.statsTemplate({
                 completed: completed,
-                remaining: remaining
+                remaining: remaining,
+                filter: window.TodoFilter
             }));
 
-            this.$('.filters li a')
-                .removeClass('selected')
-                .filter('[href="#/' + (window.TodoFilter || '') + '"]')
-                .addClass('selected');
         } else {
             this.$main.hide();
             this.$footer.hide();

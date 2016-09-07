@@ -18,7 +18,7 @@ const TodoRouter = Backbone.Router.extend({
 
     setFilter: function (param) {
         // Set the current filter to be used
-        window.TodoFilter = param || '';
+        window.TodoFilter = param || 'all';
 
         // Trigger a collection filter event, causing hiding/unhiding
         // of Todo view items

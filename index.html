@@ -19,7 +19,6 @@
     </section>
     <footer class="info">
       <p>Double-click to edit a todo</p>
-      <p>Written by <a href="https://github.com/addyosmani">Addy Osmani</a></p>
       <p>Part of <a href="http://todomvc.com">TodoMVC</a></p>
     </footer>
     <script type="text/template" id="item-template">
@@ -34,13 +33,13 @@
       <span class="todo-count"><strong><%= remaining %></strong> <%= remaining === 1 ? 'item' : 'items' %> left</span>
       <ul class="filters">
         <li>
-          <a class="selected" href="#/">All</a>
+          <a<% if (filter === 'all') { %> class="selected"<% } %> href="#/">All</a>
         </li>
         <li>
-          <a href="#/active">Active</a>
+          <a<% if (filter === 'active') { %> class="selected"<% } %> href="#/active">Active</a>
         </li>
         <li>
-          <a href="#/completed">Completed</a>
+          <a<% if (filter === 'completed') { %> class="selected"<% } %> href="#/completed">Completed</a>
         </li>
       </ul>
       <% if (completed) { %>
