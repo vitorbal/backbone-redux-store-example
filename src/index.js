@@ -1,15 +1,13 @@
-// import React from 'react';
-// import ReactDOM from 'react-dom';
-// import App from './App';
+import 'todomvc-common/base.css';
+import 'todomvc-app-css/index.css';
 
 import Backbone from 'backbone';
 import AppView from './views/app';
 import Todos from './collections/todos';
-
-import 'todomvc-common/base.css';
-import 'todomvc-app-css/index.css';
+import FilterModel from './models/filter';
 
 const todos = new Todos();
+const filter = new FilterModel({ filterType: 'all' });
 
 const TodoRouter = Backbone.Router.extend({
     routes: {
@@ -18,17 +16,14 @@ const TodoRouter = Backbone.Router.extend({
 
     setFilter: function (param) {
         // Set the current filter to be used
-        window.TodoFilter = param || 'all';
-
-        // Trigger a collection filter event, causing hiding/unhiding
-        // of Todo view items
-        todos.trigger('filter');
+        const filterType = param || 'all';
+        filter.set({ filterType })
     }
 });
-
 new TodoRouter();
 Backbone.history.start();
 
 new AppView({
-    collection: todos
+    collection: todos,
+    filter
 });

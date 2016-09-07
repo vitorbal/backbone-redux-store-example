@@ -30,10 +30,13 @@ const TodoView = Backbone.View.extend({
     // there's a one-to-one correspondence between a **Todo** and a
     // **TodoView** in this app, we set a direct reference on the model for
     // convenience.
-    initialize: function () {
+    initialize: function (options) {
         this.listenTo(this.model, 'change', this.render);
         this.listenTo(this.model, 'destroy', this.remove);
-        this.listenTo(this.model, 'visible', this.toggleVisible);
+
+        this.filter = options.filter;
+        console.log(this.filter);
+        this.listenTo(this.filter, 'change', this.toggleVisible);
     },
 
     // Re-render the titles of the todo item.
@@ -62,8 +65,8 @@ const TodoView = Backbone.View.extend({
 
     isHidden: function () {
         return this.model.get('completed') ?
-            window.TodoFilter === 'active' :
-            window.TodoFilter === 'completed';
+            this.filter.get('filterType') === 'active' :
+            this.filter.get('filterType') === 'completed';
     },
 
     // Toggle the `"completed"` state of the model.

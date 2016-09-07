@@ -29,7 +29,7 @@ const AppView = Backbone.View.extend({
     // At initialization we bind to the relevant events on the `Todos`
     // collection, when items are added or changed. Kick things off by
     // loading any preexisting todos that might be saved in *localStorage*.
-    initialize: function () {
+    initialize: function (options) {
         this.allCheckbox = this.$('.toggle-all')[0];
         this.$input = this.$('.new-todo');
         this.$footer = this.$('.footer');
@@ -42,26 +42,35 @@ const AppView = Backbone.View.extend({
         this.listenTo(this.collection, 'filter', this.filterAll);
         this.listenTo(this.collection, 'all', _.debounce(this.render, 0));
 
+        this.filter = options.filter;
+        this.listenTo(this.filter, 'change', this.renderStats);
+
         // Suppresses 'add' events with {reset: true} and prevents the app view
         // from being re-rendered for every model. Only renders when the 'reset'
         // event is triggered at the end of the fetch.
         this.collection.fetch({reset: true});
     },
 
+    renderStats: function() {
+        const completed = this.collection.completed().length;
+        const remaining = this.collection.remaining().length;
+
+        ReactDOM.render(
+            <Stats completed={completed} remaining={remaining} filter={this.filter.get('filterType')}/>,
+            this.$footer[0]
+        );
+    },
+
     // Re-rendering the App just means refreshing the statistics -- the rest
     // of the app doesn't change.
     render: function () {
-        var completed = this.collection.completed().length;
-        var remaining = this.collection.remaining().length;
+        const remaining = this.collection.remaining().length;
 
         if (this.collection.length) {
             this.$main.show();
             this.$footer.show();
 
-            ReactDOM.render(
-                <Stats completed={completed} remaining={remaining} filter={window.TodoFilter}/>,
-                this.$footer[0]
-            );
+            this.renderStats();
 
         } else {
             this.$main.hide();
@@ -74,7 +83,7 @@ const AppView = Backbone.View.extend({
     // Add a single todo item to the list by creating a view for it, and
     // appending its element to the `<ul>`.
     addOne: function (todo) {
-        var view = new TodoView({ model: todo });
+        var view = new TodoView({ model: todo, filter: this.filter });
         this.$list.append(view.render().el);
     },
 
