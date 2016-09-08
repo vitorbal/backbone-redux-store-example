@@ -35,7 +35,6 @@ const TodoView = Backbone.View.extend({
         this.listenTo(this.model, 'destroy', this.remove);
 
         this.filter = options.filter;
-        console.log(this.filter);
         this.listenTo(this.filter, 'change', this.toggleVisible);
     },
 

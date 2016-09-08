@@ -1,6 +1,10 @@
 import React from 'react';
 
-const Stats = ({ completed, remaining, filter }) => {
+const Stats = ({ completed, remaining, filterType, visible }) => {
+  if (!visible) {
+    return null;
+  }
+
   return (
     <div>
       <span className="todo-count">
@@ -8,13 +12,13 @@ const Stats = ({ completed, remaining, filter }) => {
       </span>
       <ul className="filters">
         <li>
-          <a className={filter === 'all' ? 'selected' : '' } href="#/">All</a>
+          <a className={filterType === 'all' ? 'selected' : '' } href="#/">All</a>
         </li>
         <li>
-          <a className={filter === 'active' ? 'selected' : '' } href="#/active">Active</a>
+          <a className={filterType === 'active' ? 'selected' : '' } href="#/active">Active</a>
         </li>
         <li>
-          <a className={filter === 'completed' ? 'selected' : '' } href="#/completed">Completed</a>
+          <a className={filterType === 'completed' ? 'selected' : '' } href="#/completed">Completed</a>
         </li>
       </ul>
       { completed ? <button className="clear-completed">Clear completed</button> : null }
@@ -25,7 +29,7 @@ const Stats = ({ completed, remaining, filter }) => {
 Stats.propTypes = {
   completed: React.PropTypes.number.isRequired,
   remaining: React.PropTypes.number.isRequired,
-  filter: React.PropTypes.string.isRequired
+  filterType: React.PropTypes.string.isRequired
 };
 
 export default Stats;

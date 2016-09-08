@@ -3,10 +3,6 @@ import _ from 'underscore';
 import $ from 'jquery';
 import TodoView from './todo';
 
-import React from 'react';
-import ReactDOM from 'react-dom';
-import Stats from '../components/stats';
-
 const ENTER_KEY = 13;
 
 // The Application
@@ -32,7 +28,6 @@ const AppView = Backbone.View.extend({
     initialize: function (options) {
         this.allCheckbox = this.$('.toggle-all')[0];
         this.$input = this.$('.new-todo');
-        this.$footer = this.$('.footer');
         this.$main = this.$('.main');
         this.$list = $('.todo-list');
 
@@ -43,22 +38,11 @@ const AppView = Backbone.View.extend({
         this.listenTo(this.collection, 'all', _.debounce(this.render, 0));
 
         this.filter = options.filter;
-        this.listenTo(this.filter, 'change', this.renderStats);
 
         // Suppresses 'add' events with {reset: true} and prevents the app view
         // from being re-rendered for every model. Only renders when the 'reset'
         // event is triggered at the end of the fetch.
         this.collection.fetch({reset: true});
-    },
-
-    renderStats: function() {
-        const completed = this.collection.completed().length;
-        const remaining = this.collection.remaining().length;
-
-        ReactDOM.render(
-            <Stats completed={completed} remaining={remaining} filter={this.filter.get('filterType')}/>,
-            this.$footer[0]
-        );
     },
 
     // Re-rendering the App just means refreshing the statistics -- the rest
@@ -68,13 +52,9 @@ const AppView = Backbone.View.extend({
 
         if (this.collection.length) {
             this.$main.show();
-            this.$footer.show();
-
-            this.renderStats();
 
         } else {
             this.$main.hide();
-            this.$footer.hide();
         }
 
         this.allCheckbox.checked = !remaining;

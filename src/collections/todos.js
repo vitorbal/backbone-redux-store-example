@@ -37,3 +37,7 @@ const Todos = Backbone.Collection.extend({
 });
 
 export default Todos;
+
+export const todosReducer = (todos = new Todos(), action) => {
+    return todos;
+};
